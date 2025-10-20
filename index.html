@@ -4,8 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AutoDev - Crie Apps com IA de Forma Instantânea</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-color: #00ff88; /* Verde Neon */
+      --dark-bg: #111111;
+      --rich-dark-bg: #171717;
+      --card-bg: #222222;
+      --text-light: #f5f5f5;
+      --text-medium: #b0b0b0;
+    }
     * {
       margin: 0;
       padding: 0;
@@ -13,36 +21,42 @@
       font-family: 'Inter', sans-serif;
     }
     body {
-      background: linear-gradient(135deg, #111 0%, #222 100%);
-      color: #fff;
+      /* Gradiente radial para um fundo escuro mais rico e menos plano */
+      background: radial-gradient(circle at 5% 5%, var(--rich-dark-bg) 0%, var(--dark-bg) 100%);
+      color: var(--text-light);
       overflow-x: hidden;
+      line-height: 1.6;
     }
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 10%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(10px);
+      padding: 15px 10%; /* Header um pouco mais compacto */
+      background: rgba(17, 17, 17, 0.9);
+      backdrop-filter: blur(8px);
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 1000;
+      border-bottom: 1px solid rgba(0, 255, 136, 0.08); /* Borda inferior sutil */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
     header h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #00ff88;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary-color);
+      letter-spacing: -0.5px;
     }
     header nav a {
-      margin-left: 20px;
+      margin-left: 25px;
       text-decoration: none;
-      color: #fff;
+      color: var(--text-medium);
       font-weight: 500;
+      font-size: 0.95rem;
       transition: color 0.3s;
     }
     header nav a:hover {
-      color: #00ff88;
+      color: var(--primary-color);
     }
     .hero {
       display: flex;
@@ -50,78 +64,103 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 180px 20px 120px;
+      padding: 220px 20px 150px; /* Mais espaço vertical */
     }
     .hero h2 {
-      font-size: 2.5rem;
-      max-width: 800px;
-      line-height: 1.2;
+      font-size: 3.5rem; /* Título maior */
+      max-width: 900px;
+      line-height: 1.1;
+      font-weight: 800;
+      margin-bottom: 20px;
     }
     .hero p {
-      max-width: 600px;
+      max-width: 700px;
       margin-top: 15px;
-      font-size: 1.1rem;
-      color: #ccc;
+      font-size: 1.15rem;
+      color: var(--text-medium);
+      font-weight: 400;
     }
     .hero .cta {
-      margin-top: 30px;
-      padding: 15px 30px;
-      font-size: 1rem;
-      font-weight: 600;
-      color: #000;
-      background: #00ff88;
+      margin-top: 40px;
+      padding: 18px 35px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--dark-bg);
+      background: var(--primary-color);
       border: none;
-      border-radius: 30px;
+      border-radius: 40px;
       cursor: pointer;
-      transition: transform 0.2s;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+      transition: transform 0.2s, box-shadow 0.3s;
     }
     .hero .cta:hover {
-      transform: scale(1.05);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(0, 255, 136, 0.6);
     }
     .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 30px;
-      padding: 60px 10%;
+      padding: 80px 10%;
     }
     .feature {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 30px;
-      border-radius: 20px;
-      text-align: center;
-      transition: transform 0.3s;
+      background: var(--card-bg);
+      padding: 35px;
+      border-radius: 15px;
+      text-align: left;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
     .feature:hover {
       transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 255, 136, 0.15);
     }
     .feature h3 {
-      color: #00ff88;
+      font-size: 1.3rem;
       margin-bottom: 10px;
-      font-size: 1.2rem;
+      color: var(--text-light);
+      font-weight: 700;
     }
+    .feature h3::before {
+        /* Usando a primeira letra da descrição como ícone visual maior */
+        content: attr(data-icon);
+        display: block;
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+        line-height: 1;
+    }
+    /* Estilos para os ícones no H3 usando data-icon */
+    .feature:nth-child(1) h3::before { content: '🚀'; }
+    .feature:nth-child(2) h3::before { content: '🧠'; }
+    .feature:nth-child(3) h3::before { content: '💾'; }
+    .feature:nth-child(4) h3::before { content: '💸'; }
+
     .feature p {
-      color: #ccc;
-      font-size: 0.95rem;
+      color: var(--text-medium);
+      font-size: 1rem;
     }
     .preview {
       padding: 80px 10%;
       text-align: center;
     }
-    .preview h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
+    .preview h2, .portfolio h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 50px;
+      color: var(--text-light);
     }
     /* Estilos para o iframe de vídeo */
     .video-container {
       position: relative;
-      padding-bottom: 56.25%; /* Proporção 16:9 (altura / largura * 100) */
+      padding-bottom: 56.25%; /* Proporção 16:9 */
       height: 0;
       overflow: hidden;
-      max-width: 100%;
-      background: #000; /* Fundo preto para preencher enquanto carrega */
+      max-width: 900px;
+      background: #000;
       margin: 0 auto;
       border-radius: 10px;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
     }
     .video-container iframe {
       position: absolute;
@@ -136,9 +175,7 @@
       text-align: center;
     }
     .portfolio h2 {
-      font-size: 2rem;
-      margin-bottom: 40px;
-      color: #00ff88;
+      color: var(--primary-color);
     }
     .examples-grid {
       display: grid;
@@ -146,12 +183,12 @@
       gap: 30px;
     }
     .example-card {
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
+      background: var(--card-bg);
+      border-radius: 15px;
       overflow: hidden;
       text-align: left;
       transition: transform 0.3s, box-shadow 0.3s;
-      border: 1px solid rgba(0, 255, 136, 0.2); /* Borda sutil */
+      border: 1px solid rgba(0, 255, 136, 0.1);
     }
     .example-card:hover {
       transform: translateY(-8px);
@@ -159,49 +196,76 @@
     }
     .example-card img {
       width: 100%;
-      height: 200px; /* Altura fixa para consistência */
+      height: 200px;
       object-fit: cover;
       display: block;
       cursor: pointer;
+      transition: opacity 0.3s;
+    }
+    .example-card img:hover {
+        opacity: 0.8;
     }
     .example-card-content {
       padding: 20px;
     }
     .example-card-content h3 {
       font-size: 1.3rem;
-      color: #fff;
-      margin-bottom: 10px;
+      color: var(--text-light);
+      margin-bottom: 8px;
+      font-weight: 600;
     }
     .example-card-content p {
       font-size: 0.95rem;
-      color: #ccc;
-      margin-bottom: 15px;
+      color: var(--text-medium);
+      margin-bottom: 0; /* Remove margem desnecessária */
     }
     .warning {
       text-align: center;
-      padding: 20px 10%;
-      margin-top: 40px;
-      margin-bottom: 40px;
-      background: rgba(0, 255, 136, 0.1);
-      border-left: 5px solid #00ff88;
+      padding: 25px 10%;
+      margin: 60px 0;
+      background: rgba(0, 255, 136, 0.08);
+      border-left: 5px solid var(--primary-color);
       font-size: 1rem;
-      color: #00ff88;
+      color: var(--primary-color);
+      font-weight: 500;
       border-radius: 0 10px 10px 0;
     }
     footer {
-      background: #000;
+      background: var(--dark-bg);
       text-align: center;
       padding: 30px 20px;
       font-size: 0.9rem;
-      color: #666;
+      color: #555;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
     footer a {
-      color: #00ff88;
+      color: var(--primary-color);
       text-decoration: none;
+      transition: color 0.3s;
+    }
+    footer a:hover {
+        color: var(--text-light);
+    }
+    @media (max-width: 900px) {
+      .hero h2 {
+        font-size: 2.5rem;
+      }
+      .preview h2, .portfolio h2 {
+        font-size: 2rem;
+      }
     }
     @media (max-width: 600px) {
+      header {
+        padding: 15px 5%;
+      }
+      .hero {
+        padding-top: 120px;
+      }
       .hero h2 {
-        font-size: 1.8rem;
+        font-size: 2rem;
+      }
+      .features, .portfolio {
+        padding: 60px 5%;
       }
     }
 
@@ -212,12 +276,12 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.95); /* Fundo mais escuro */
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 2000;
-      cursor: default;
+      cursor: pointer; /* Torna o overlay clicável para fechar */
     }
     .lightbox.active {
       display: flex;
@@ -232,13 +296,14 @@
       max-width: 100%;
       max-height: 100vh;
       object-fit: contain;
-      border-radius: 10px;
+      border-radius: 5px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
     }
     .lightbox-close {
       position: absolute;
       top: 20px;
       right: 30px;
-      color: #00ff88;
+      color: var(--primary-color);
       font-size: 40px;
       font-weight: bold;
       transition: 0.3s;
@@ -246,7 +311,7 @@
       text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
     }
     .lightbox-close:hover {
-      color: #fff;
+      color: var(--text-light);
     }
   </style>
 </head>
@@ -269,26 +334,26 @@
 
   <section class="features" id="features">
     <div class="feature">
-      <h3>🚀 Criação Instantânea</h3>
+      <h3>Criação Instantânea</h3>
       <p>Escolha o projeto, descreva a alteração ou ideia e veja a IA gerar o código completo em segundos.</p>
     </div>
     <div class="feature">
-      <h3>🧠 Edição com IA</h3>
+      <h3>Edição com IA</h3>
       <p>Não é editor manual. Você fala o que quer e o AutoDev atualiza os arquivos sem refazer tudo do zero.</p>
     </div>
     <div class="feature">
-      <h3>💾 Dados Persistentes</h3>
+      <h3>Dados Persistentes</h3>
       <p>Login salvo em JSON, sem simulações. Tudo funcional e direto.</p>
     </div>
     <div class="feature">
-      <h3>💸 100% Grátis</h3>
+      <h3>100% Grátis</h3>
       <p>Sem pegadinhas, sem planos pagos. É livre e acessível pra geral.</p>
     </div>
   </section>
 
   <section class="preview" id="preview">
     <h2>Veja o AutoDev em ação</h2>
-    <div class="video-container" style="max-width: 900px;">
+    <div class="video-container">
       <iframe src="https://drive.google.com/file/d/1E7dQF8CAB_HEOYCWuwRHNKKgZjkBkUEW/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
     </div>
   </section>
@@ -326,7 +391,7 @@
     <p>Lembrando que esses são exemplos simples que criei. O app Auto Dev pode criar qualquer coisa, basta você descrever o que quer. Para gerar prompts com facilidade, use o ChatGPT ou Gemini.</p>
   </section>
 
-  <section class="hero" id="download">
+  <section class="hero" id="download" style="padding-top: 60px;">
     <h2>Baixe e use agora</h2>
     <p>Simples, rápido e 100% gratuito. Clique no botão abaixo para iniciar o download.</p>
     <a href="https://seulink.com/instalador" class="cta" style="text-decoration:none;display:inline-block;">Download Grátis</a>

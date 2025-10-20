@@ -1,668 +1,489 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoDev - Dashboard</title> <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoDev - Crie Apps com IA de Forma Instantânea</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #00ff88; /* Verde Neon */
+      --dark-bg: #111111;
+      --rich-dark-bg: #171717;
+      --card-bg: #222222;
+      --text-light: #f5f5f5;
+      --text-medium: #b0b0b0;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: radial-gradient(circle at 5% 5%, var(--rich-dark-bg) 0%, var(--dark-bg) 100%);
+      color: var(--text-light);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 10%;
+      background: rgba(17, 17, 17, 0.9);
+      backdrop-filter: blur(8px);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(0, 255, 136, 0.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary-color);
+      letter-spacing: -0.5px;
+    }
+    header nav a {
+      margin-left: 25px;
+      text-decoration: none;
+      color: var(--text-medium);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+    }
+    header nav a:hover {
+      color: var(--primary-color);
+    }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 180px 20px 80px; /* Reduzido o padding para subir o conteúdo */
+    }
+    .hero h2 {
+      font-size: 3.2rem;
+      max-width: 900px;
+      line-height: 1.1;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      max-width: 700px;
+      font-size: 1.15rem;
+      color: var(--text-medium);
+      font-weight: 400;
+    }
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    /* Seção de Cards (Features + Download/Ações) */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      padding: 0 10% 80px; /* Reduzido o padding superior para ficar mais próximo do hero */
+    }
+    .feature {
+      background: var(--card-bg);
+      padding: 35px;
+      border-radius: 15px;
+      text-align: left;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: default;
+    }
+    .feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 255, 136, 0.15);
+    }
+    .feature.clickable {
+        cursor: pointer;
+    }
     
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght[email protected]&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght[email protected];700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    /* Estilo Específico para o Card de Download (CTA Principal) */
+    .feature-download {
+        grid-column: 1 / -1; /* Ocupa toda a largura da grade */
+        text-align: center;
+        background: linear-gradient(145deg, var(--card-bg), #2c2c2c);
+        border: 2px solid var(--primary-color);
+        box-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
+        padding: 40px;
+    }
+    .feature-download h3 {
+        font-size: 2rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+    .feature-download p {
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+    }
+    .feature-download .cta {
+        padding: 18px 35px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--dark-bg);
+        background: var(--primary-color);
+        border: none;
+        border-radius: 40px;
+        cursor: pointer;
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        transition: transform 0.2s, box-shadow 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .feature-download .cta:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(0, 255, 136, 0.6);
+    }
+
+    /* Estilo dos Títulos e Ícones dos Cards */
+    .feature h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--text-light);
+      font-weight: 700;
+    }
+    .feature[data-icon]::before {
+        content: attr(data-icon);
+        display: block;
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+        line-height: 1;
+    }
+    .feature p {
+      color: var(--text-medium);
+      font-size: 1rem;
+    }
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs/loader.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+    /* Warning Section */
+    .warning {
+      text-align: center;
+      padding: 25px 10%;
+      margin: 60px 0;
+      background: rgba(0, 255, 136, 0.08);
+      border-left: 5px solid var(--primary-color);
+      font-size: 1rem;
+      color: var(--primary-color);
+      font-weight: 500;
+      border-radius: 0 10px 10px 0;
+    }
+    footer {
+      background: var(--dark-bg);
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 0.9rem;
+      color: #555;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    footer a:hover {
+        color: var(--text-light);
+    }
+
+    /* ------------------------------------- */
+    /* ESTILOS DOS MODAIS (PARA VÍDEO E PORTFÓLIO) */
+    /* ------------------------------------- */
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-content {
+      background: var(--rich-dark-bg);
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+      max-width: 90%;
+      max-height: 90vh;
+      width: 1000px;
+      position: relative;
+      padding: 30px;
+      overflow-y: auto;
+      transform: scale(0.95);
+      opacity: 0;
+      transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    }
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+      opacity: 1;
+    }
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      color: var(--primary-color);
+      font-size: 35px;
+      font-weight: bold;
+      transition: 0.3s;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .modal-close:hover {
+      color: var(--text-light);
+    }
+    .modal-content h2 {
+        font-size: 2rem;
+        margin-bottom: 25px;
+        color: var(--primary-color);
+        font-weight: 700;
+        text-align: center;
+    }
+    /* Estilo para o vídeo dentro do modal */
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* Proporção 16:9 */
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        background: #000;
+        margin-top: 20px;
+        border-radius: 5px;
+    }
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+    /* Estilo para os prints dentro do modal */
+    #portfolio-modal .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    #portfolio-modal .example-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        overflow: hidden;
+        transition: transform 0.3s;
+        border: 1px solid rgba(0, 255, 136, 0.1);
+        text-align: left;
+    }
+    #portfolio-modal .example-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+    }
+    #portfolio-modal .example-card-content {
+        padding: 15px;
+    }
     
+    /* LIGHTBOX DE IMAGEM (PARA EXPANDIR PRINTS) */
+    #image-lightbox {
+        background: rgba(0, 0, 0, 0.98);
+        cursor: pointer;
+    }
+    #image-lightbox .modal-content {
+        background: transparent;
+        box-shadow: none;
+        max-width: 90%;
+        max-height: 90%;
+        padding: 0;
+        cursor: default;
+    }
+    #image-lightbox .modal-content img {
+        border-radius: 5px;
+        max-width: 100%;
+        max-height: 95vh;
+        object-fit: contain;
+    }
+    #image-lightbox .modal-close {
+        top: 0;
+        right: 0;
+    }
+
+    @media (max-width: 900px) {
+      .hero h2 {
+        font-size: 2.5rem;
+      }
+    }
+    @media (max-width: 600px) {
+      header {
+        padding: 15px 5%;
+      }
+      .hero {
+        padding-top: 120px;
+      }
+      .hero h2 {
+        font-size: 2rem;
+      }
+      .features {
+        padding: 0 5% 60px;
+      }
+      .feature-download {
+          padding: 30px 15px;
+      }
+      .modal-content {
+        max-width: 95%;
+        padding: 15px;
+      }
+      #portfolio-modal .examples-grid {
+          grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-<body class="dark-mode">
+<body>
+  <header>
+    <h1>AutoDev</h1>
+    <nav>
+      <a href="#features">Recursos</a>
+      <a href="#features">Download</a>
+    </nav>
+  </header>
 
-    <header>
-        <span id="logo">AutoDev</span>
-        <div id="user-info" style="display: none;">
-            <span id="username-display"></span>
-            <button onclick="logout()">Sair</button>
-        </div>
-        <button id="theme-toggle" onclick="toggleTheme()"></button>
-    </header>
+  <section class="hero">
+    <h2>Crie apps completos com IA em segundos, totalmente de graça</h2>
+    <p>AutoDev é a plataforma que transforma suas ideias em aplicações reais sem pagar nada. Sim, 100% gratuito, sem planos escondidos.</p>
+  </section>
 
-    <main>
-        <div id="notification-container"></div>
-        
-        <div id="overlay-loading" class="hidden">
-            <div id="loading-box">
-                <h2>Processando...</h2>
-                <div class="progress-bar">
-                    <div id="progress-fill" class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
-                <p id="status-text" class="status-text">Iniciando a operação...</p>
-                <div id="spinner" class="loading">
-                    <span class="loading-dot"></span>
-                    <span class="loading-dot"></span>
-                    <span class="loading-dot"></span>
-                </div>
+  <section class="features" id="features">
+    
+    <div class="feature feature-download" id="download-card">
+        <h3>Baixe e use agora</h3>
+        <p>Simples, rápido e 100% gratuito. Clique no botão abaixo para iniciar o download.</p>
+        <a href="https://seulink.com/instalador" class="cta">Download Grátis</a>
+    </div>
+
+    <div class="feature clickable" data-icon="🎬" onclick="openModal('video-modal')">
+      <h3>Vídeo de Demonstração</h3>
+      <p>Veja como o AutoDev funciona na prática, criando e editando um projeto em tempo real.</p>
+    </div>
+    <div class="feature clickable" data-icon="🖼️" onclick="openModal('portfolio-modal')">
+      <h3>Portfólio de Exemplos</h3>
+      <p>Explore as telas, designs e sistemas web que a IA é capaz de gerar.</p>
+    </div>
+
+    <div class="feature" data-icon="🚀">
+      <h3>Criação Instantânea</h3>
+      <p>Escolha o projeto, descreva a alteração ou ideia e veja a IA gerar o código completo em segundos.</p>
+    </div>
+    <div class="feature" data-icon="🧠">
+      <h3>Edição com IA</h3>
+      <p>Não é editor manual. Você fala o que quer e o AutoDev atualiza os arquivos sem refazer tudo do zero.</p>
+    </div>
+    <div class="feature" data-icon="💾">
+      <h3>Dados Persistentes</h3>
+      <p>Login salvo em JSON, sem simulações. Tudo funcional e direto.</p>
+    </div>
+    <div class="feature" data-icon="💸">
+      <h3>100% Grátis</h3>
+      <p>Sem pegadinhas, sem planos pagos. É livre e acessível pra geral.</p>
+    </div>
+  </section>
+
+  <section class="warning">
+    <p>Lembrando que esses são exemplos simples que criei. O app Auto Dev pode criar qualquer coisa, basta você descrever o que quer. Para gerar prompts com facilidade, use o ChatGPT ou Gemini.</p>
+  </section>
+
+  <footer>
+    <p>Feito com 💚 para devs. <a href="#">Voltar ao topo</a></p>
+  </footer>
+
+
+  <div id="video-modal" class="modal-overlay" onclick="closeModal(event, 'video-modal')">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal(event, 'video-modal')">&times;</span>
+      <h2>Vídeo de Demonstração do AutoDev</h2>
+      <div class="video-container">
+        <iframe src="https://drive.google.com/file/d/1E7dQF8CAB_HEOYCWuwRHNKKgZjkBkUEW/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="portfolio-modal" class="modal-overlay" onclick="closeModal(event, 'portfolio-modal')">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal(event, 'portfolio-modal')">&times;</span>
+      <h2>Portfólio Rápido - Sites Gerados</h2>
+      <div class="examples-grid">
+        <div class="example-card">
+          <img src="https://media.discordapp.net/attachments/1376193998619807824/1429805180685123754/image.png?ex=68f77957&is=68f627d7&hm=a9f890a96f03347e9e3ade7c5d5bb64f45171a37842fdcf201ef1fb4743c232d&=&format=webp&quality=lossless&width=1054&height=626" alt="Exemplo E-commerce" onclick="openImageLightbox(event, this.src)">
+          <div class="example-card-content">
+            <h3>Loja Virtual de Moda</h3>
+            <p>Gerado com a descrição: "Uma loja virtual elegante e minimalista com foco em moda sustentável."</p>
             </div>
         </div>
 
-        <section id="login-section" class="card">
-            <h2>Login de Acesso</h2>
-            <form id="login-form">
-                <input type="text" id="login-username" placeholder="Usuário" required>
-                <input type="password" id="login-password" placeholder="Senha" required>
-                <button type="submit">Entrar</button>
-            </form>
-            <button onclick="showRegister()">Não tem conta? Registre-se</button>
-        </section>
-
-        <section id="register-section" class="card hidden">
-            <h2>Registro de Usuário</h2>
-            <form id="register-form">
-                <input type="text" id="register-username" placeholder="Novo Usuário" required>
-                <input type="password" id="register-password" placeholder="Nova Senha" required>
-                <button type="submit">Registrar</button>
-            </form>
-            <button onclick="showLogin()">Já tem conta? Faça Login</button>
-        </section>
-
-        <section id="dashboard-section" class="hidden">
-            
-            <div id="project-management">
-                <div class="card">
-                    <h2>Gerador de Projeto (Chat)</h2>
-                    <div id="chat-container">
-                        <div id="chat-messages">
-                            <div class="message bot">
-                                <span class="avatar">🤖</span>
-                                <div class="message-content">Olá! Eu sou o AutoDev. Diga-me qual projeto front-end você gostaria de criar (ex: "Um site de blog responsivo com tema dark").</div>
-                            </div>
-                        </div>
-                        <div id="chat-input-area">
-                            <input type="text" id="chat-input" placeholder="Descreva seu projeto..." disabled>
-                            <button id="chat-send-btn" onclick="handleChatSubmit()" disabled>
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card project-list-card">
-                    <h2>Meus Projetos</h2>
-                    <ul id="project-list">
-                        </ul>
-                </div>
+        <div class="example-card">
+          <img src="https://media.discordapp.net/attachments/1376193998619807824/1429803673491603496/image.png?ex=68f777f0&is=68f62670&hm=42009135b81590115efe87ac2fb4215160536f05541c0c4b743460ed3aa47deb&=&format=webp&quality=lossless&width=1080&height=624" alt="Exemplo Sistema Web" onclick="openImageLightbox(event, this.src)">
+          <div class="example-card-content">
+            <h3>Sistema de Gerenciamento de Projetos</h3>
+            <p>Criado com a descrição: "Um dashboard administrativo em modo escuro para gestão de tarefas e equipes."</p>
             </div>
-            
-            <div id="editor-management" class="hidden">
-                <h2 id="editor-title">Editor de Código: Novo Projeto</h2>
-                
-                <div class="tab-buttons">
-                    <button id="tab-html" class="active-tab" onclick="changeEditorTab('html')">index.html</button>
-                    <button id="tab-css" onclick="changeEditorTab('css')">style.css</button>
-                    <button id="tab-js" onclick="changeEditorTab('js')">script.js</button>
-                </div>
-                
-                <div id="editor-container">
-                    <div id="editor-html" class="code-editor"></div>
-                    <div id="editor-css" class="code-editor hidden"></div>
-                    <div id="editor-js" class="code-editor hidden"></div>
-                </div>
-                
-                <div class="editor-actions">
-                    <button onclick="saveProject()">
-                        <i class="fas fa-save"></i> Salvar
-                    </button>
-                    <button onclick="downloadProject()">
-                        <i class="fas fa-download"></i> Baixar Projeto
-                    </button>
-                    <button onclick="deleteProject()">
-                        <i class="fas fa-trash"></i> Excluir Projeto
-                    </button>
-                    <button onclick="viewProjectList()" class="secondary-btn">
-                        <i class="fas fa-list"></i> Voltar para Projetos
-                    </button>
-                </div>
+        </div>
+        
+        <div class="example-card">
+          <img src="https://media.discordapp.net/attachments/1376193998619807824/1429802868860518410/image.png?ex=68f77730&is=68f625b0&hm=554f7f156122f02a4c1ad65bac0ec7f172c8f3cec7cae4dc43565092353e0827&=&format=webp&quality=lossless&width=949&height=612" alt="Tela Inicial do AutoDev - Dashboard" onclick="openImageLightbox(event, this.src)">
+          <div class="example-card-content">
+            <h3>Tela Inicial do Aplicativo</h3>
+            <p>A interface de entrada do AutoDev, onde você descreve o projeto que deseja criar ou editar.</p>
             </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        </section>
-    </main>
 
-    <script>
-        // Variáveis globais para os editores
-        let htmlEditor, cssEditor, jsEditor;
-        let activeProject = null; // Projeto sendo editado
-        
-        // --- Funções de Notificação ---
-        function showNotification(message, type = 'info', duration = 3000) {
-            const container = document.getElementById('notification-container');
-            const notification = document.createElement('div');
-            notification.className = `notification ${type} fade-in`;
-            notification.innerHTML = `<span>${message}</span>`;
+  <div id="image-lightbox" class="modal-overlay" onclick="closeModal(event, 'image-lightbox')">
+    <span class="modal-close" onclick="closeModal(event, 'image-lightbox')">&times;</span>
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <img id="lightbox-img" src="" alt="Imagem Expandida">
+    </div>
+  </div>
+
+  <script>
+    // Função unificada para abrir qualquer modal
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Função unificada para fechar qualquer modal
+    function closeModal(event, modalId) {
+        // Verifica se o clique foi no botão de fechar ou no overlay (fundo)
+        if (event.target.id === modalId || event.target.classList.contains('modal-close')) {
+            document.getElementById(modalId).classList.remove('active');
             
-            container.appendChild(notification);
-            
-            // Força o reflow para garantir a animação fade-in
-            void notification.offsetWidth; 
-            
-            // Remove a notificação após 'duration'
-            setTimeout(() => {
-                notification.classList.remove('fade-in');
-                notification.classList.add('fade-out');
-                // Remove o elemento após a animação fade-out
-                notification.addEventListener('transitionend', () => notification.remove());
-            }, duration);
-        }
-        
-        // --- Funções de Loading/Overlay ---
-        function showLoading(message, progress = 0) {
-            document.getElementById('overlay-loading').classList.remove('hidden');
-            document.getElementById('status-text').textContent = message;
-            document.getElementById('progress-fill').style.width = `${progress}%`;
-        }
-
-        function updateLoading(message, progress) {
-            document.getElementById('status-text').textContent = message;
-            document.getElementById('progress-fill').style.width = `${progress}%`;
-        }
-
-        function hideLoading() {
-            document.getElementById('overlay-loading').classList.add('hidden');
-        }
-
-        // --- Funções de Login/Registro ---
-
-        // Função para mostrar a seção de login
-        function showLogin() {
-            document.getElementById('register-section').classList.add('hidden');
-            document.getElementById('login-section').classList.remove('hidden');
-        }
-        
-        // Função para mostrar a seção de registro
-        function showRegister() {
-            document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('register-section').classList.remove('hidden');
-        }
-
-        // Função para salvar o token e atualizar a UI
-        function setLoggedIn(token, username) {
-            localStorage.setItem('authToken', token);
-            localStorage.setItem('username', username);
-            document.getElementById('username-display').textContent = username;
-            document.getElementById('user-info').style.display = 'flex';
-            document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('register-section').classList.add('hidden');
-            document.getElementById('dashboard-section').classList.remove('hidden');
-            showNotification(`Bem-vindo, ${username}!`, 'success');
-            fetchProjects(); // Carrega a lista de projetos após o login
-        }
-        
-        // Função para sair e limpar o estado
-        function logout() {
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('username');
-            activeProject = null;
-            document.getElementById('user-info').style.display = 'none';
-            document.getElementById('dashboard-section').classList.add('hidden');
-            document.getElementById('editor-management').classList.add('hidden');
-            showLogin();
-            showNotification('Você saiu da sua conta.', 'info');
-        }
-
-        // Função para checar o estado de login ao carregar
-        async function checkLoginStatus() {
-            const token = localStorage.getItem('authToken');
-            const username = localStorage.getItem('username');
-
-            if (token && username) {
-                try {
-                    // Tenta validar o token no backend (pode ser uma rota /api/validate-token)
-                    const response = await fetch('/api/validate-token', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        setLoggedIn(token, username); // Se o token for válido, mantém o login
-                    } else {
-                        // Token inválido/expirado
-                        logout();
-                    }
-
-                } catch (error) {
-                    console.error('Erro na validação de token:', error);
-                    logout(); // Em caso de erro de rede, assume que não está logado
-                }
-            } else {
-                showLogin();
+            // Se fechar um modal principal, restaurar a rolagem
+            if (modalId === 'video-modal' || modalId === 'portfolio-modal') {
+                document.body.style.overflow = '';
             }
         }
+    }
+    
+    // Função específica para abrir o lightbox de imagem
+    function openImageLightbox(event, src) {
+        event.stopPropagation(); // Impede que o clique feche o modal de portfólio
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
 
-        // Event listener para o formulário de login
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
-            
-            showLoading('Autenticando...');
-
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-
-                // AQUI: CORREÇÃO: Garante que hideLoading seja chamado mesmo em caso de erro da resposta
-                hideLoading();
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    setLoggedIn(data.token, username);
-                } else {
-                    showNotification(data.error || 'Credenciais inválidas.', 'error');
-                }
-            } catch (error) {
-                // AQUI: CORREÇÃO: Garante que hideLoading seja chamado em caso de erro de rede
-                hideLoading();
-                showNotification('Erro de rede ao tentar fazer login.', 'error');
-                console.error('Erro de login:', error);
-            }
-        });
-
-        // Event listener para o formulário de registro
-        document.getElementById('register-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('register-username').value;
-            const password = document.getElementById('register-password').value;
-            
-            showLoading('Registrando...');
-
-            try {
-                const response = await fetch('/api/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-                
-                // AQUI: CORREÇÃO: Garante que hideLoading seja chamado mesmo em caso de erro da resposta
-                hideLoading();
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    showNotification('Usuário registrado com sucesso! Faça login.', 'success');
-                    document.getElementById('login-username').value = username;
-                    document.getElementById('login-password').value = password;
-                    showLogin(); // Volta para a tela de login
-                } else {
-                    showNotification(data.error || 'Erro ao registrar. Tente outro nome de usuário.', 'error');
-                }
-            } catch (error) {
-                // AQUI: CORREÇÃO: Garante que hideLoading seja chamado em caso de erro de rede
-                hideLoading();
-                showNotification('Erro de rede ao tentar registrar.', 'error');
-                console.error('Erro de registro:', error);
-            }
-        });
-
-        // --- Funções do Chat ---
-
-        // Converte Markdown para HTML para exibir no chat
-        const converter = new showdown.Converter();
-        
-        function appendMessage(sender, message, isError = false) {
-            const chatMessages = document.getElementById('chat-messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
-            
-            const avatarSpan = document.createElement('span');
-            avatarSpan.className = 'avatar';
-            avatarSpan.textContent = sender === 'user' ? '👤' : '🤖';
-
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-
-            if (isError) {
-                // Mensagens de erro são apresentadas como texto puro (ou em negrito)
-                contentDiv.innerHTML = message;
-            } else {
-                // Mensagens normais são convertidas de Markdown
-                contentDiv.innerHTML = converter.makeHtml(message);
-            }
-
-            messageDiv.appendChild(avatarSpan);
-            messageDiv.appendChild(contentDiv);
-            chatMessages.appendChild(messageDiv);
-            
-            // Auto-scroll para a última mensagem
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Adiciona um placeholder de "Bot digitando..."
-        function addBotTyping() {
-            const chatMessages = document.getElementById('chat-messages');
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'message bot typing';
-            typingDiv.id = 'bot-typing';
-            typingDiv.innerHTML = '<span class="avatar">🤖</span><div class="message-content loading"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></div>';
-            chatMessages.appendChild(typingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Remove o placeholder de "Bot digitando..."
-        function removeBotTyping() {
-            const typingDiv = document.getElementById('bot-typing');
-            if (typingDiv) {
-                typingDiv.remove();
-            }
-        }
-
-        // Envio de mensagem (chat)
-        async function handleChatSubmit() {
-            const input = document.getElementById('chat-input');
-            const message = input.value.trim();
-
-            if (!message) return;
-            
-            // 1. Desabilita o input e botão
-            input.disabled = true;
-            document.getElementById('chat-send-btn').disabled = true;
-            
-            // 2. Adiciona a mensagem do usuário
-            appendMessage('user', message);
-            input.value = '';
-
-            // 3. Adiciona o indicador de 'digitando' do bot
-            addBotTyping();
-
-            try {
-                // Token de autenticação
-                const token = localStorage.getItem('authToken');
-                if (!token) {
-                    throw new Error('Usuário não autenticado.');
-                }
-                
-                // 4. Envia para o backend
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ prompt: message })
-                });
-
-                const data = await response.json();
-                
-                // 5. Remove o indicador de 'digitando'
-                removeBotTyping();
-                
-                if (!response.ok) {
-                    throw new Error(data.error || 'Erro desconhecido na comunicação com a IA.');
-                }
-
-                // 6. Adiciona a resposta da IA
-                appendMessage('bot', data.response);
-                
-                // Se a resposta incluir um projeto (indicado por uma flag ou estrutura), 
-                // você precisará de uma lógica para processar/salvar o projeto gerado aqui.
-                // Por enquanto, assumimos que o chat é apenas para conversação.
-                
-
-            } catch (error) {
-                console.error('Erro no chat:', error);
-                removeBotTyping();
-                appendMessage('bot', `**Erro:** Não consegui me comunicar com o servidor/IA. Por favor, tente novamente mais tarde. (${error.message})`, true);
-            } finally {
-                // 7. Restaura o input
-                input.disabled = false;
-                document.getElementById('chat-send-btn').disabled = false;
-                input.focus(); // Foca no input para facilitar a próxima mensagem
-            }
-        }
-
-        // --- Funções de Projeto e Editor (Stub/Placeholder) ---
-        
-        // Função que será chamada após o login para buscar a lista de projetos
-        async function fetchProjects() {
-            // (Lógica de busca de projetos no backend - não implementada neste snippet)
-            // Apenas restaura o estado do chat/input/botão
-            document.getElementById('chat-input').disabled = false;
-            document.getElementById('chat-send-btn').disabled = false;
-            
-            // Exemplo de placeholder na lista de projetos
-            const projectList = document.getElementById('project-list');
-            projectList.innerHTML = '<li>Nenhum projeto salvo. Use o chat para gerar um!</li>';
-            
-            // Inicializa os editores na primeira vez
-            if (typeof monaco === 'undefined' || !htmlEditor) {
-                initMonaco();
-            }
-        }
-
-        // Função para abrir um projeto no editor
-        function openProject(projectId, projectName, htmlCode, cssCode, jsCode) {
-            // ... (Lógica de abertura de projeto no editor)
-            // Oculta a lista e mostra o editor
-            document.getElementById('project-management').classList.add('hidden');
-            document.getElementById('editor-management').classList.remove('hidden');
-            
-            activeProject = { id: projectId, name: projectName };
-            document.getElementById('editor-title').textContent = `Editor de Código: ${projectName}`;
-            
-            htmlEditor.setValue(htmlCode || '');
-            cssEditor.setValue(cssCode || '/* Conteúdo CSS aqui */');
-            jsEditor.setValue(jsCode || '// Conteúdo JavaScript aqui');
-            
-            changeEditorTab('html'); // Volta para a aba HTML
-        }
-
-        // Função para salvar o projeto
-        async function saveProject() {
-            if (!activeProject) {
-                showNotification('Nenhum projeto ativo para salvar.', 'error');
-                return;
-            }
-            
-            // ... (Lógica de coleta de código e chamada de API /api/save-project)
-            showLoading('Salvando Projeto...', 50);
-            
-            try {
-                // Simulação de delay de salvamento
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                // AQUI: CORREÇÃO: Garante que hideLoading seja chamado no sucesso
-                hideLoading(); 
-                showNotification(`Projeto "${activeProject.name}" salvo com sucesso!`, 'success');
-
-            } catch(error) {
-                // AQUI: CORREÇÃO: Garante que hideLoading seja chamado no erro
-                hideLoading(); 
-                showNotification('Erro ao tentar salvar o projeto.', 'error');
-                console.error('Erro de salvamento:', error);
-            }
-        }
-
-        // Função para voltar para a lista de projetos
-        function viewProjectList() {
-             document.getElementById('editor-management').classList.add('hidden');
-             document.getElementById('project-management').classList.remove('hidden');
-             activeProject = null;
-             fetchProjects(); // Recarrega a lista
-        }
-
-        // Função para alternar as abas do editor
-        function changeEditorTab(type) {
-            const tabs = ['html', 'css', 'js'];
-            
-            tabs.forEach(tab => {
-                document.getElementById(`editor-${tab}`).classList.add('hidden');
-                document.getElementById(`tab-${tab}`).classList.remove('active-tab');
-            });
-            
-            document.getElementById(`editor-${type}`).classList.remove('hidden');
-            document.getElementById(`tab-${type}`).classList.add('active-tab');
-            
-            // Garante que o editor ativo seja reajustado (útil se o container for redimensionado)
-            if (type === 'html' && htmlEditor) htmlEditor.layout();
-            if (type === 'css' && cssEditor) cssEditor.layout();
-            if (type === 'js' && jsEditor) jsEditor.layout();
-        }
-
-        // Função de inicialização do Monaco Editor
-        function initMonaco() {
-            // Configuração do Monaco Loader
-            require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.48.0/min/vs' }});
-            require(['vs/editor/editor.main'], function() {
-                
-                const editorOptions = {
-                    theme: 'vs-dark',
-                    minimap: { enabled: false },
-                    fontSize: 14,
-                    automaticLayout: true, // Importante para redimensionamento
-                    scrollBeyondLastLine: false,
-                    readOnly: false
-                };
-
-                htmlEditor = monaco.editor.create(document.getElementById('editor-html'), {
-                    value: '',
-                    language: 'html',
-                    ...editorOptions
-                });
-
-                cssEditor = monaco.editor.create(document.getElementById('editor-css'), {
-                    value: '/* Conteúdo CSS aqui */',
-                    language: 'css',
-                    ...editorOptions
-                });
-
-                jsEditor = monaco.editor.create(document.getElementById('editor-js'), {
-                    value: '// Conteúdo JavaScript aqui',
-                    language: 'javascript',
-                    ...editorOptions
-                });
-
-            });
-        }
-        
-        // Função de Download (Stub)
-        async function downloadProject() {
-            if (!activeProject) {
-                showNotification('Nenhum projeto ativo para download.', 'error');
-                return;
-            }
-            
-            showLoading('Preparando Download...', 50);
-            
-            try {
-                const token = localStorage.getItem('authToken');
-                const response = await fetch(`/api/download/${activeProject.id}`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                
-                // AQUI: CORREÇÃO: Garante que hideLoading seja chamado no sucesso
-                hideLoading(); 
-
-                if (response.ok) {
-                    showNotification(`Download do projeto "${activeProject.name}" iniciado.`, 'info');
-                    // O navegador lida com o download graças ao res.download do backend
-                    const blob = await response.blob();
-                    const downloadUrl = window.URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = downloadUrl;
-                    link.setAttribute('download', `${activeProject.name}.zip`);
-                    document.body.appendChild(link);
-                    link.click();
-                    link.remove();
-                    window.URL.revokeObjectURL(downloadUrl);
-                } else {
-                    const errorText = await response.text();
-                    showNotification(`Erro no download: ${errorText.substring(0, 50)}...`, 'error');
-                }
-
-            } catch(error) {
-                // AQUI: CORREÇÃO: Garante que hideLoading seja chamado no erro
-                hideLoading();
-                showNotification('Erro de rede ao tentar baixar o projeto.', 'error');
-                console.error('Erro de download:', error);
-            }
-        }
-        
-        // Função de Exclusão (Stub)
-        async function deleteProject() {
-            if (!activeProject || !confirm(`Tem certeza que deseja EXCLUIR o projeto "${activeProject.name}"?`)) {
-                return;
-            }
-            
-            showLoading('Excluindo Projeto...', 50);
-
-            try {
-                // ... (Lógica de chamada de API /api/delete-project)
-                
-                // Simulação de delay de exclusão
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                // AQUI: CORREÇÃO: Garante que hideLoading seja chamado no sucesso
-                hideLoading(); 
-                
-                showNotification(`Projeto "${activeProject.name}" excluído com sucesso!`, 'success');
-                viewProjectList(); // Volta para a lista
-                
-            } catch(error) {
-                // AQUI: CORREÇÃO: Garante que hideLoading seja chamado no erro
-                hideLoading();
-                showNotification('Erro ao tentar excluir o projeto.', 'error');
-                console.error('Erro de exclusão:', error);
-            }
-        }
-
-        // --- Configurações/Utilitários ---
-
-        // Função para alternar o tema Dark/Light
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            const isLight = document.body.classList.contains('light-mode');
-            const toggleButton = document.getElementById('theme-toggle');
-            
-            if (isLight) {
-                localStorage.setItem('theme', 'light');
-                toggleButton.textContent = '🌙 Escuro';
-                // Atualiza o tema do Monaco
-                if (htmlEditor) {
-                    monaco.editor.setTheme('vs');
-                }
-            } else {
-                localStorage.setItem('theme', 'dark');
-                toggleButton.textContent = '☀️ Claro';
-                // Atualiza o tema do Monaco
-                if (htmlEditor) {
-                    monaco.editor.setTheme('vs-dark');
-                }
-            }
-        }
-
-        // --- Inicialização ---
-        
-        // Verifica o tema salvo no localStorage
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') {
-            document.body.classList.add('light-mode');
-            document.getElementById('theme-toggle').textContent = '🌙 Escuro';
-        } else {
-             document.body.classList.remove('light-mode');
-             document.getElementById('theme-toggle').textContent = '☀️ Claro';
-        }
-
-        // Tenta fazer login automático ao carregar
-        document.addEventListener('DOMContentLoaded', checkLoginStatus);
-
-    </script>
-
+        lightboxImg.src = src;
+        lightbox.classList.add('active');
+    }
+  </script>
 </body>
 </html>

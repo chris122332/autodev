@@ -21,7 +21,6 @@
       font-family: 'Inter', sans-serif;
     }
     body {
-      /* Gradiente radial para um fundo escuro mais rico e menos plano */
       background: radial-gradient(circle at 5% 5%, var(--rich-dark-bg) 0%, var(--dark-bg) 100%);
       color: var(--text-light);
       overflow-x: hidden;
@@ -31,14 +30,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 10%; /* Header um pouco mais compacto */
+      padding: 15px 10%;
       background: rgba(17, 17, 17, 0.9);
       backdrop-filter: blur(8px);
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 1000;
-      border-bottom: 1px solid rgba(0, 255, 136, 0.08); /* Borda inferior sutil */
+      border-bottom: 1px solid rgba(0, 255, 136, 0.08);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
     header h1 {
@@ -64,10 +63,10 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 220px 20px 150px; /* Mais espaço vertical */
+      padding: 220px 20px 150px;
     }
     .hero h2 {
-      font-size: 3.5rem; /* Título maior */
+      font-size: 3.5rem;
       max-width: 900px;
       line-height: 1.1;
       font-weight: 800;
@@ -110,6 +109,7 @@
       text-align: left;
       transition: transform 0.3s, box-shadow 0.3s;
       border: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer; /* Adicionado para cards clicáveis */
     }
     .feature:hover {
       transform: translateY(-5px);
@@ -121,8 +121,8 @@
       color: var(--text-light);
       font-weight: 700;
     }
-    .feature h3::before {
-        /* Usando a primeira letra da descrição como ícone visual maior */
+    /* Ícones e Estilo Visual para Cards de Recurso */
+    .feature[data-icon]::before {
         content: attr(data-icon);
         display: block;
         font-size: 3rem;
@@ -130,95 +130,23 @@
         margin-bottom: 15px;
         line-height: 1;
     }
-    /* Estilos para os ícones no H3 usando data-icon */
-    .feature:nth-child(1) h3::before { content: '🚀'; }
-    .feature:nth-child(2) h3::before { content: '🧠'; }
-    .feature:nth-child(3) h3::before { content: '💾'; }
-    .feature:nth-child(4) h3::before { content: '💸'; }
-
+    .feature-video[data-icon]::before { content: '🎬'; }
+    .feature-portfolio[data-icon]::before { content: '🖼️'; }
+    /* Estilos para os ícones originais */
+    .feature:nth-child(1)[data-icon]::before { content: '🚀'; }
+    .feature:nth-child(2)[data-icon]::before { content: '🧠'; }
+    .feature:nth-child(3)[data-icon]::before { content: '💾'; }
+    .feature:nth-child(4)[data-icon]::before { content: '💸'; }
+    
     .feature p {
       color: var(--text-medium);
       font-size: 1rem;
     }
-    .preview {
-      padding: 80px 10%;
-      text-align: center;
-    }
-    .preview h2, .portfolio h2 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 50px;
-      color: var(--text-light);
-    }
-    /* Estilos para o iframe de vídeo */
-    .video-container {
-      position: relative;
-      padding-bottom: 56.25%; /* Proporção 16:9 */
-      height: 0;
-      overflow: hidden;
-      max-width: 900px;
-      background: #000;
-      margin: 0 auto;
-      border-radius: 10px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-    }
-    .video-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-    .portfolio {
-      padding: 80px 10%;
-      text-align: center;
-    }
-    .portfolio h2 {
-      color: var(--primary-color);
-    }
-    .examples-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
-    .example-card {
-      background: var(--card-bg);
-      border-radius: 15px;
-      overflow: hidden;
-      text-align: left;
-      transition: transform 0.3s, box-shadow 0.3s;
-      border: 1px solid rgba(0, 255, 136, 0.1);
-    }
-    .example-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 35px rgba(0, 255, 136, 0.15);
-    }
-    .example-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      display: block;
-      cursor: pointer;
-      transition: opacity 0.3s;
-    }
-    .example-card img:hover {
-        opacity: 0.8;
-    }
-    .example-card-content {
-      padding: 20px;
-    }
-    .example-card-content h3 {
-      font-size: 1.3rem;
-      color: var(--text-light);
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-    .example-card-content p {
-      font-size: 0.95rem;
-      color: var(--text-medium);
-      margin-bottom: 0; /* Remove margem desnecessária */
-    }
+    
+    /* REMOVIDO: .preview section - Conteúdo movido para Modais */
+
+    /* REMOVIDO: .portfolio section - Conteúdo movido para Modais */
+
     .warning {
       text-align: center;
       padding: 25px 10%;
@@ -246,12 +174,115 @@
     footer a:hover {
         color: var(--text-light);
     }
+
+    /* ------------------------------------- */
+    /* ESTILOS DOS MODAIS (LIGHTBOX/SECTIONS) */
+    /* ------------------------------------- */
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-content {
+      background: var(--rich-dark-bg);
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+      max-width: 90%;
+      max-height: 90vh;
+      width: 1000px;
+      position: relative;
+      padding: 30px;
+      overflow-y: auto;
+      transform: scale(0.95);
+      opacity: 0;
+      transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    }
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+      opacity: 1;
+    }
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      color: var(--primary-color);
+      font-size: 35px;
+      font-weight: bold;
+      transition: 0.3s;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .modal-close:hover {
+      color: var(--text-light);
+    }
+    .modal-content h2 {
+        font-size: 2rem;
+        margin-bottom: 25px;
+        color: var(--primary-color);
+        font-weight: 700;
+        text-align: center;
+    }
+    /* Estilo para o vídeo dentro do modal */
+    #video-modal .video-container {
+        max-width: 100%;
+        margin-top: 20px;
+        border-radius: 5px;
+    }
+    /* Estilo para os prints dentro do modal */
+    #portfolio-modal .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    #portfolio-modal .example-card img {
+      height: 200px;
+      cursor: pointer;
+    }
+    
+    /* ------------------------------------- */
+    /* LIGHTBOX DE IMAGEM (PARA CARDS DO MODAL) */
+    /* ------------------------------------- */
+
+    #image-lightbox { /* Mantém o lightbox para a imagem expandida */
+        background: rgba(0, 0, 0, 0.98);
+        cursor: pointer;
+    }
+    #image-lightbox .modal-content {
+        background: transparent;
+        box-shadow: none;
+        max-width: 90%;
+        max-height: 90%;
+        padding: 0;
+        cursor: default;
+    }
+    #image-lightbox .modal-content img {
+        border-radius: 5px;
+        max-width: 100%;
+        max-height: 95vh;
+        object-fit: contain;
+    }
+    #image-lightbox .modal-close {
+        top: 0;
+        right: 0;
+    }
+
     @media (max-width: 900px) {
       .hero h2 {
         font-size: 2.5rem;
       }
-      .preview h2, .portfolio h2 {
-        font-size: 2rem;
+      .modal-content {
+          padding: 20px;
       }
     }
     @media (max-width: 600px) {
@@ -267,51 +298,13 @@
       .features, .portfolio {
         padding: 60px 5%;
       }
-    }
-
-    /* Estilos para Lightbox (Expandir Imagem) */
-    .lightbox {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.95); /* Fundo mais escuro */
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      cursor: pointer; /* Torna o overlay clicável para fechar */
-    }
-    .lightbox.active {
-      display: flex;
-    }
-    .lightbox-content {
-      max-width: 90%;
-      max-height: 90%;
-      position: relative;
-    }
-    .lightbox-content img {
-      display: block;
-      max-width: 100%;
-      max-height: 100vh;
-      object-fit: contain;
-      border-radius: 5px;
-      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
-    }
-    .lightbox-close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      color: var(--primary-color);
-      font-size: 40px;
-      font-weight: bold;
-      transition: 0.3s;
-      cursor: pointer;
-      text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-    }
-    .lightbox-close:hover {
-      color: var(--text-light);
+      .modal-content {
+        max-width: 95%;
+        padding: 15px;
+      }
+      #portfolio-modal .examples-grid {
+          grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -320,8 +313,6 @@
     <h1>AutoDev</h1>
     <nav>
       <a href="#features">Recursos</a>
-      <a href="#portfolio">Exemplos</a>
-      <a href="#preview">Preview</a>
       <a href="#download">Download</a>
     </nav>
   </header>
@@ -333,57 +324,29 @@
   </section>
 
   <section class="features" id="features">
-    <div class="feature">
+    <div class="feature" data-icon="🚀">
       <h3>Criação Instantânea</h3>
       <p>Escolha o projeto, descreva a alteração ou ideia e veja a IA gerar o código completo em segundos.</p>
     </div>
-    <div class="feature">
+    <div class="feature" data-icon="🧠">
       <h3>Edição com IA</h3>
       <p>Não é editor manual. Você fala o que quer e o AutoDev atualiza os arquivos sem refazer tudo do zero.</p>
     </div>
-    <div class="feature">
+    <div class="feature feature-video" data-icon="🎬" onclick="openModal('video-modal')">
+      <h3>Vídeo de Demonstração</h3>
+      <p>Veja como o AutoDev funciona na prática, criando e editando um projeto em tempo real.</p>
+    </div>
+    <div class="feature feature-portfolio" data-icon="🖼️" onclick="openModal('portfolio-modal')">
+      <h3>Portfólio de Exemplos</h3>
+      <p>Explore as telas, designs e sistemas web que a IA é capaz de gerar.</p>
+    </div>
+    <div class="feature" data-icon="💾">
       <h3>Dados Persistentes</h3>
       <p>Login salvo em JSON, sem simulações. Tudo funcional e direto.</p>
     </div>
-    <div class="feature">
+    <div class="feature" data-icon="💸">
       <h3>100% Grátis</h3>
       <p>Sem pegadinhas, sem planos pagos. É livre e acessível pra geral.</p>
-    </div>
-  </section>
-
-  <section class="preview" id="preview">
-    <h2>Veja o AutoDev em ação</h2>
-    <div class="video-container">
-      <iframe src="https://drive.google.com/file/d/1E7dQF8CAB_HEOYCWuwRHNKKgZjkBkUEW/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-    </div>
-  </section>
-
-  <section class="portfolio" id="portfolio">
-    <h2>Portfólio Rápido - Sites Gerados</h2>
-    <div class="examples-grid">
-      <div class="example-card">
-        <img src="https://media.discordapp.net/attachments/1376193998619807824/1429805180685123754/image.png?ex=68f77957&is=68f627d7&hm=a9f890a96f03347e9e3ade7c5d5bb64f45171a37842fdcf201ef1fb4743c232d&=&format=webp&quality=lossless&width=1054&height=626" alt="Exemplo E-commerce" onclick="openLightbox(this.src)">
-        <div class="example-card-content">
-          <h3>Loja Virtual de Moda</h3>
-          <p>Gerado com a descrição: "Uma loja virtual elegante e minimalista com foco em moda sustentável."</p>
-          </div>
-      </div>
-
-      <div class="example-card">
-        <img src="https://media.discordapp.net/attachments/1376193998619807824/1429803673491603496/image.png?ex=68f777f0&is=68f62670&hm=42009135b81590115efe87ac2fb4215160536f05541c0c4b743460ed3aa47deb&=&format=webp&quality=lossless&width=1080&height=624" alt="Exemplo Sistema Web" onclick="openLightbox(this.src)">
-        <div class="example-card-content">
-          <h3>Sistema de Gerenciamento de Projetos</h3>
-          <p>Criado com a descrição: "Um dashboard administrativo em modo escuro para gestão de tarefas e equipes."</p>
-          </div>
-      </div>
-      
-      <div class="example-card">
-        <img src="https://media.discordapp.net/attachments/1376193998619807824/1429802868860518410/image.png?ex=68f77730&is=68f625b0&hm=554f7f156122f02a4c1ad65bac0ec7f172c8f3cec7cae4dc43565092353e0827&=&format=webp&quality=lossless&width=949&height=612" alt="Tela Inicial do AutoDev - Dashboard" onclick="openLightbox(this.src)">
-        <div class="example-card-content">
-          <h3>Tela Inicial do Aplicativo</h3>
-          <p>A interface de entrada do AutoDev, onde você descreve o projeto que deseja criar ou editar.</p>
-          </div>
-      </div>
     </div>
   </section>
 
@@ -401,38 +364,87 @@
     <p>Feito com 💚 para devs. <a href="#">Voltar ao topo</a></p>
   </footer>
 
-  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-    <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-    <div class="lightbox-content" onclick="event.stopPropagation()">
+
+  <div id="video-modal" class="modal-overlay" onclick="closeModal(event, 'video-modal')">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal(event, 'video-modal')">&times;</span>
+      <h2>Vídeo de Demonstração do AutoDev</h2>
+      <div class="video-container">
+        <iframe src="https://drive.google.com/file/d/1E7dQF8CAB_HEOYCWuwRHNKKgZjkBkUEW/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="portfolio-modal" class="modal-overlay" onclick="closeModal(event, 'portfolio-modal')">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal(event, 'portfolio-modal')">&times;</span>
+      <h2>Portfólio Rápido - Sites Gerados</h2>
+      <div class="examples-grid">
+        <div class="example-card">
+          <img src="https://media.discordapp.net/attachments/1376193998619807824/1429805180685123754/image.png?ex=68f77957&is=68f627d7&hm=a9f890a96f03347e9e3ade7c5d5bb64f45171a37842fdcf201ef1fb4743c232d&=&format=webp&quality=lossless&width=1054&height=626" alt="Exemplo E-commerce" onclick="openImageLightbox(event, this.src)">
+          <div class="example-card-content">
+            <h3>Loja Virtual de Moda</h3>
+            <p>Gerado com a descrição: "Uma loja virtual elegante e minimalista com foco em moda sustentável."</p>
+            </div>
+        </div>
+
+        <div class="example-card">
+          <img src="https://media.discordapp.net/attachments/1376193998619807824/1429803673491603496/image.png?ex=68f777f0&is=68f62670&hm=42009135b81590115efe87ac2fb4215160536f05541c0c4b743460ed3aa47deb&=&format=webp&quality=lossless&width=1080&height=624" alt="Exemplo Sistema Web" onclick="openImageLightbox(event, this.src)">
+          <div class="example-card-content">
+            <h3>Sistema de Gerenciamento de Projetos</h3>
+            <p>Criado com a descrição: "Um dashboard administrativo em modo escuro para gestão de tarefas e equipes."</p>
+            </div>
+        </div>
+        
+        <div class="example-card">
+          <img src="https://media.discordapp.net/attachments/1376193998619807824/1429802868860518410/image.png?ex=68f77730&is=68f625b0&hm=554f7f156122f02a4c1ad65bac0ec7f172c8f3cec7cae4dc43565092353e0827&=&format=webp&quality=lossless&width=949&height=612" alt="Tela Inicial do AutoDev - Dashboard" onclick="openImageLightbox(event, this.src)">
+          <div class="example-card-content">
+            <h3>Tela Inicial do Aplicativo</h3>
+            <p>A interface de entrada do AutoDev, onde você descreve o projeto que deseja criar ou editar.</p>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="image-lightbox" class="modal-overlay" onclick="closeModal(event, 'image-lightbox')">
+    <span class="modal-close" onclick="closeModal(event, 'image-lightbox')">&times;</span>
+    <div class="modal-content" onclick="event.stopPropagation()">
       <img id="lightbox-img" src="" alt="Imagem Expandida">
     </div>
   </div>
 
   <script>
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-
-    // Abre o lightbox e define a fonte da imagem
-    function openLightbox(src) {
-      lightboxImg.src = src;
-      lightbox.classList.add('active');
-      document.body.style.overflow = 'hidden'; // Evita rolagem da página principal
+    // Função unificada para abrir qualquer modal
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
 
-    // Fecha o lightbox e restaura a rolagem
-    function closeLightbox() {
-      lightbox.classList.remove('active');
-      document.body.style.overflow = '';
+    // Função unificada para fechar qualquer modal
+    function closeModal(event, modalId) {
+        // Verifica se o clique foi no botão de fechar ou no overlay (fundo)
+        if (event.target.id === modalId || event.target.classList.contains('modal-close')) {
+            document.getElementById(modalId).classList.remove('active');
+            
+            // Se fechar um modal principal, restaurar a rolagem
+            if (modalId === 'video-modal' || modalId === 'portfolio-modal') {
+                document.body.style.overflow = '';
+            }
+        }
     }
     
-    // Fecha quando clica no overlay (fora da imagem)
-    lightbox.addEventListener('click', function(e) {
-        // Verifica se o clique foi diretamente no lightbox e não no conteúdo ou na imagem
-        if (e.target.id === 'lightbox') {
-            closeLightbox();
-        }
-    });
+    // Função específica para abrir o lightbox de imagem
+    function openImageLightbox(event, src) {
+        event.stopPropagation(); // Impede que o clique feche o modal de portfólio
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
 
+        lightboxImg.src = src;
+        lightbox.classList.add('active');
+    }
   </script>
 </body>
 </html>
